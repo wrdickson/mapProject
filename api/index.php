@@ -25,7 +25,6 @@ $app->get("/logoff/", "logoff");
 $app->get('/maps/:id', 'getMap');
 
 $app->put('/maps/:id', 'updateMap');
-$app->patch('/maps/:id', 'patchMap');
 $app->post('/maps/', 'postUpdateMap');
 
 $app->put('/maps/:id/features/:index', 'updateFeatureByIndex');
@@ -55,42 +54,13 @@ function updateFeatureByIndex($mapId, $featureIndex){
 
 
 function getMap($id){
-	//this has to come across as pure json so it will map to the Backbone model
-	$iMap = new Map($id);
-    $response['centroid'] = json_decode($iMap->getCentroid(),true);
-    $response['mapJson'] = json_decode($iMap->getMapJson(),true);
-    $response['owner'] = $iMap->getOwner();
-    $response['envelope'] = json_decode($iMap->getEnvelope(),true);
-    $response['area'] = $iMap->getArea();
-    $response['zoom'] = $iMap->getZoom();
-    $response['type'] = $iMap->getType();
-    $response['map_name'] = $iMap->getName();
-    $response['map_desc'] = $iMap->getDesc();
-    $response['map_layers'] = $iMap->getMapLayers();
-    $response['has_legend'] = $iMap->getHasLegend();
-    $response['legend'] = $iMap->getLegend();
-    $response['date_added'] = $iMap->getDateAdded();
-    $response['date_modified'] = $iMap->getDateModified();
-    $response['map_id'] = $iMap->getId();
-    print json_encode($response);	
+	//this has to come across as json so it will map to the Backbone model
+	$iMap = new Map($id);    
+    print json_encode($iMap->dumpArray());
+    
+    //print json_encode($response);	
 }
 
-function patchMap($id){
-    $app = \Slim\Slim::getInstance();
-    $body = $app->request->getBody();
-    $pArr = json_decode($body, true);
-    
-    
-    $response = array();
-    $response['pk'] = $pArr['pk'];
-    $response['id'] = $pArr['id'];
-    $response['user'] = $pArr['user'];
-    $response['value'] = $pArr['value'];
-    
-    $app->response->setStatus(401);
-    
-    print json_encode($response);
-}
 
 function postUpdateMap(){
     $app = \Slim\Slim::getInstance();
@@ -107,15 +77,16 @@ function updateMap($id){
     $pArr = json_decode($body, true);
     
     //get the user
+    /*
     $mtoUserId = $pArr['mtoUser']['id'];
     $user = new Person($mtoUserId);
-    
+    */
     $response = array();
     
     $response['pArr'] = $pArr;
-    //$response['value'] = $_POST['value'];
     
     //key match!
+    /*
     try{
         $response['$keyPassed2'] = $user->verify_key($pArr['mtoUser']['key']);
     } catch (Exception $e){
@@ -129,20 +100,31 @@ function updateMap($id){
         $response['keyPassed'] = 0;
     }
     
-    
-    
-    
-    
+
     $iMap = new Map($pArr['id']);
-    $success = $iMap->updateMapJson(stripslashes(trim(json_encode($pArr['mapJson']))));
+    
+    //switch based on the value of "pk":
+    switch ($pArr['pk']){
+    
+        case "mapJson":
+            //TODO validate . . . 
+            //still not right . . . need to just call ->setMapJson()
+            $response['success'] = $iMap->updateMapJson(stripslashes(trim(json_encode($pArr['value'])))); 
+            
+        default:
+            $response['success'] = false;
+    
+    }
+    
+    
     
     $error= "there was an error";
-    if ($success == 1){
+    if ($response['success'] == 1){
         $app->response->setStatus(200);
     }else{
         $app->response->setStatus(300);
     }
-    
+    */
     
     print(json_encode($response));
 }

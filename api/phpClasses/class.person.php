@@ -32,7 +32,8 @@ class Person {
             while($obj = $stmt->fetch(PDO::FETCH_OBJ)){
             $this->id = $obj->id;
             $this->username = $obj->user_name;
-            $this->email = $obj->user_email;    
+            //$this->email = $obj->user_email;
+            $this->email = "protected";
             $this->permission = $obj->user_perm;
             $this->registered = $obj->user_registered;
             $this->last_login = $obj->user_last_login;

@@ -13,6 +13,7 @@ class Map {
     private $owner;
     private $name;
     private $desc;
+    //array of geoJson strings
     private $mapLayers;
     //centroid is a wkt text string
     private $centroid;
@@ -22,7 +23,7 @@ class Map {
     private $type;
     private $area;
     private $zoom;
-    //geoJson 
+    //geoJson string 
     public $mapJson;
     //bool, tinyint
     private $mapHasLegend;
@@ -44,7 +45,7 @@ class Map {
                 $this->name = $obj->map_name;    
                 $this->desc = $obj->map_desc;
                 $this->mapLayers = $obj->map_layers;
-                    // db stores centroid as wkt, we want it in geoJson
+                // db stores centroid as wkt, we want it in geoJson
                 $this->centroid = $this->wktToJson($obj->map_centroid);
                 // db stores envelope as wkt, we want it in geoJson
                 $this->envelope = $this->wktToJson($obj->map_envelope);
@@ -65,15 +66,15 @@ class Map {
         $mapArr['owner'] = $this->owner;
         $mapArr['name'] = $this->name;
         $mapArr['desc'] = $this->desc;
-        $mapArr['mapLayers'] = $this->mapLayers;
+        $mapArr['mapLayers'] = json_decode($this->mapLayers, true);
         $mapArr['centroid'] = json_decode($this->centroid, true);
         $mapArr['area'] = $this->area;
         $mapArr['envelope'] = json_decode($this->envelope, true);
         $mapArr['zoom'] = $this->zoom;
         $mapArr['type'] = $this->type;
-        $mapArr['mapJson'] = $this->mapJson;
+        $mapArr['mapJson'] = json_decode($this->mapJson, true);
         $mapArr['mapHasLegend'] = $this->mapHasLegend;
-        $mapArr['mapLegend'] = $this->mapLegend;
+        $mapArr['mapLegend'] = json_decode($this->mapLegend, true);
         $mapArr['dateAdded'] = $this->dateAdded;
         $mapArr['dateModified'] = $this->dateModified;        
         return $mapArr;
