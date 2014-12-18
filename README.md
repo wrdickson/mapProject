@@ -12,6 +12,8 @@ This should be a block quote:
 >Some text
 >goes here
 
+####Code Highlighting?:
+
     function foo(
       var bar = "hello"
     )
