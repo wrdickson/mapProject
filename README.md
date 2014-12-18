@@ -3,7 +3,7 @@
 
 ####Dev Notes:
 
-*ListItem1
-*ListItem2
+* ListItem1
+* ListItem2
 
 
