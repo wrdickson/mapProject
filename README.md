@@ -12,4 +12,7 @@ This should be a block quote:
 >Some text
 >goes here
 
+    function foo(
+      var bar = "hello"
+    )
 
