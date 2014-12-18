@@ -6,6 +6,7 @@ define([
     'apps/userApp/userApp',
     'apps/mapData/mapData',
     'apps/control/controlApp',
+    'layers/layers',
     'jquery'
     
 ], function(
@@ -13,7 +14,8 @@ define([
     Marionette,
     UserApp,
     MapData,
-    ControlApp
+    ControlApp,
+    Layers
 ){
 	
     
