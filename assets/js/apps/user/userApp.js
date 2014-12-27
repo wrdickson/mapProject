@@ -1,13 +1,23 @@
 //userApp.js
 define([
     'backbone',
-    'common/dispatcher'
+    'common/dispatcher',
+    'apps/user/views/userLoginView'
 
 ], function (
     Backbone,
-    dispatcher
+    dispatcher,
+    UserLoginView
+    
 
 ) {
+
+    //private properties
+    var user;
+    
+    
+    //private methods
+    
     
     var UserApp = {
     };
@@ -16,7 +26,10 @@ define([
     
     });
     
-    UserApp.initialize = function(){
+    UserApp.initialize = function(user){
+    
+        //set the private property
+        user = user;
     
         //debugging dispatcher . . .. 
                 var req = dispatcher.request("tModel:get");

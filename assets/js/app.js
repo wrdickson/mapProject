@@ -20,12 +20,13 @@ define([
     dispatcher
 ){
 	
-    console.log("mtoUser from echoed php", mtoUser);
-    
+    //this is where we get the evil global variables from php
+    //kneel down and vow that globals will never be accessed or created again
     var baseUrl = mtoBaseUrl;
-    var mapJson = {};
+    //and we do it again for mtoUser
+    var user = new UserApp.User( mtoUser );
     var router;
-    var user;
+    var mapData;
         
     
     var MapApp = new Marionette.Application
@@ -75,11 +76,10 @@ define([
             },  
             loadMap: function(id){
                 console.log("loadMap",id);
-                var mapData = new MapData();
+                mapData = new MapData();
                 mapData.set("id",id);
                 mapData.fetch({
                     success: function(model, response, options){
-                        Backbone.trigger("mapData:loaded",model);
                         dispatcher.trigger("mapData:loaded", model);
                         dispatcher.trigger("mapData:xLoaded",{
                             f: function(){
@@ -111,33 +111,15 @@ define([
         }
         
         //MapApp.router.navigate("something/else"); //works
-        //initialize the mtoUser global(boo!) from php
-        
-        user = new UserApp.User( mtoUser );
-        console.log("user", user);
         
         
-        UserApp.initialize();        
+        UserApp.initialize(user);        
            
         ControlApp.initialize(user);
         
-        
         GMapApp.initialize(user);
         
-        
-
-        
-
-        
-        
-
 	});
-    
-    
-    
-    
-	
-    
 
 	return MapApp;
 });
