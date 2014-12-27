@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require "lib/Slim/Slim.php";    
 require "config/config.php";
 require "phpClasses/class.dataconnecter.php";
@@ -84,7 +84,7 @@ function updateMap($id){
     $response = array();
     
     $response['pArr'] = $pArr;
-    
+    $response['session'] = $_SESSION;
     //key match!
     /*
     try{

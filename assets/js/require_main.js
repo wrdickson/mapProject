@@ -1,5 +1,5 @@
 requirejs.config({
-  baseUrl: "assets/js",
+  baseUrl: "http://localhost/mapProject/assets/js",
   waitSeconds: 60,
   paths: {
     backbone: "vendor/backbone",
@@ -51,6 +51,14 @@ requirejs.config({
 });
 
 require(["app"], function(MapApp){
+
+
+
   MapApp.start();
+
+
+  
+  
+  
   
 });

@@ -1,21 +1,25 @@
 //controlapp.js
 define([
+    'backbone',
+    'apps/control/menu',
+    'common/dispatcher',
     'jquery-ui'
 
 ], function(
-
+    Backbone,    
+    Menu,
+    dispatcher
 
 ){
 
+
+var user;
+
 var ControlApp = {};
 
-//  PRIVATE FUNCTIONS
-function sayHello(){
-    console.log("Hellooooooo . . ", this);
-    
-}
-
 function fireJqueryUi(){
+    $("#mtoControl").show("slow");
+
     $("#mtoControl").draggable({
         handle: "#mtoControlUpper"	
     });
@@ -30,11 +34,10 @@ function fireJqueryUi(){
         if(activeTab < 2){
             selectedFeatureIndex = -1;
             //tell map to unselect all
-                reqres.trigger("control:unselectFeature");
+                //reqres.trigger("control:unselectFeature");
             //disable tab2 (detail)
             $("#controlTabs").tabs("option", "disabled", [2]);
         }
-        
     });
     
     $( "#mtoControl" ).resizable({
@@ -51,18 +54,16 @@ function fireJqueryUi(){
     });
 }
 
-ControlApp.initialize = function(){
-    //console.log("controlApp inits . . ");
-    sayHello();
+ControlApp.initialize = function(user){
+
+    //set the private property
+    user = user;
+    console.log(user);
+    
     //burn the jquery ui onto the control
-    fireJqueryUi();
- 
+    fireJqueryUi();    
+    Menu.fireMenu(user);   
 }
-
-ControlApp.loadMap = function($id){
-
-}
-
 
 return ControlApp;
 });

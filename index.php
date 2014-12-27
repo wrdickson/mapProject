@@ -1,17 +1,45 @@
+<?php 
+    session_start();
+    define('BASE_URL', "http://localhost/mapProject/");
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    
     <meta charset="utf-8">
     <title>BackMarReq_0.1</title>
     <!--
-    <link href="./assets/css/bootstrap.css" rel="stylesheet">
+    NOTE: because of the routing from maps/:id, we need to use absolute urls, boo!
     -->
-    <link href="./assets/css/application.css" rel="stylesheet">
-    <link href="./assets/css/jquery-ui.structure.css" rel="stylesheet">
-    <link href="./assets/css/jquery-ui.theme.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="./assets/css/dhtmlxMenu/dhtmlxmenu.css">
-    <link rel="stylesheet" type="text/css" href="./assets/css/jqueryui-editable/css/jqueryui-editable.css">
-    
+    <link href="<?php echo BASE_URL?>assets/css/application.css "rel="stylesheet">
+    <link href="<?php echo BASE_URL?>assets/css/jquery-ui.structure.css" rel="stylesheet">
+    <link href="<?php echo BASE_URL?>assets/css/jquery-ui.theme.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL?>assets/css/dhtmlxMenu/dhtmlxmenu.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL?>assets/css/jqueryui-editable/css/jqueryui-editable.css">
+    <?php
+        //get session user data if available
+        if(isset($_SESSION['mtoUserId']) && isset($_SESSION['mtoUserKey']) && isset($_SESSION['mtoUserPerm'])){
+        
+        }else{
+            $_SESSION['mtoUserId'] = 0;
+            $_SESSION['mtoUserKey'] = 0;
+            $_SESSION['mtoUsername'] = "Guest";
+            $_SESSION['mtoUserPerm'] = 0;
+        
+        }
+        $mtoUser = array();
+        $mtoUser['mtoUserId'] = $_SESSION['mtoUserId'];
+        $mtoUser['mtoUserKey'] = $_SESSION['mtoUserKey'];
+        $mtoUser['mtoUsername'] = $_SESSION['mtoUsername'];
+        $mtoUser['mtoUserPerm'] = $_SESSION['mtoUserPerm'];
+        
+        $userJson = json_encode($mtoUser);
+        echo"<script>var mtoUser= " . $userJson . ";</script>";
+        
+
+        //send BASE_URL to javascript
+        echo"<script>var mtoBaseUrl = '" . BASE_URL . "';</script>";
+    ?>
   </head>
 
   <body>
@@ -20,9 +48,9 @@
     <div id="header-region"></div> 
     <div id="dialog-region"></div>
     <div id="modal-region"></div>
-    <div id="mtoControl">
+    <div id="mtoControl" style="display: none">
     	<div id="mtoControlUpper">
-	        <span id="mtoLogo" style="height: 26px;"><img src="assets/img/mto_grn_2.png"  style="height: 24px;padding: 2px; margin-top: 3px;"/>
+	        <span id="mtoLogo" style="height: 26px;"><img src="<?php echo BASE_URL?>assets/img/mto_grn_2.png"  style="height: 24px;padding: 2px; margin-top: 3px;"/>
 	            
 	        </span>
             
@@ -34,9 +62,11 @@
                 <li><a href="#tabs-0">Map</a></li>
                 <li><a href="#tabs-1">Features</a></li>
                 <li><a href="#tabs-2">Detail</a></li>
+                <li><a href="#tabs-3">Debug</a></li>
             </ul>
             <div id="tabs-0" class="tabs-content">
                 <div id="mapInfo">mapInfo</div>
+
             </div>
             <div id="tabs-1" class="tabs-content">
                 <div id="mapFeatures">mapFeatures</div>
@@ -46,6 +76,12 @@
                     <div id="featureDetailInfo"></div>
                     <div id="featureDetailCoords"></div>
                 </div>
+            </div>
+            <div id="tabs-3" class="tabs-content">
+                <?php
+                    echo"<hr/>SESSION:";
+                    echo var_dump($_SESSION);
+                ?>          
             </div>
         </div>        
     </div>
@@ -74,9 +110,9 @@
     	<button class="btn" type="button" id="btnCancelLogin">Cancel</button>
    	</script>
 	
-    <script data-main="./assets/js/require_main.js" src="./assets/js/vendor/require.js"></script>
+    <script data-main="<?php echo BASE_URL?>assets/js/require_main.js" src="<?php echo BASE_URL?>assets/js/vendor/require.js"></script>
     <!--
-    <script src="./assets/js/require_main.built.js"></script>
+    <script src="<?php echo BASE_URL?>assets/js/require_main.built.js"></script>
     -->
     
    </body>

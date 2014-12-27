@@ -1,1 +1,26 @@
-info with some changes
+Event sequence
+
+1. App.start();
+    this fires UserApp.initialize();
+        -look for a user in session date
+        Yes: 
+            instantiate user
+            fire user:change
+         No: 
+            instantiate guest as user
+            fire user:change
+            
+"userModel:sync" triggers EVERYTHING
+    1. fire control
+        A. fire menu
+        B. fire tabs
+    2. fire map
+        -look for a mapId
+        Yes:
+            -instantiate gMap
+        No:
+            -instantiate gMap with default mapId
+            
+"mapModel:sync" triggers a reburn of the control AND the gMap
+
+2, Router:::

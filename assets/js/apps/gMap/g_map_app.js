@@ -1,6 +1,15 @@
 //g_map_app.js
 
-define(["apps/gMap/map_defaults", "backbone","reqres","apps/gMap/map_data", "jquery"], function(mapDefaults, Backbone, reqres){
+define([
+    "apps/gMap/map_defaults",
+    'common/dispatcher',   
+    "backbone", 
+    "jquery"
+], function(
+    mapDefaults,
+    dispatcher,
+    Backbone
+){
 
     var GMapApp = {};
     
@@ -309,13 +318,13 @@ define(["apps/gMap/map_defaults", "backbone","reqres","apps/gMap/map_data", "jqu
             featuresArray[index].properties = v.properties;
             
             google.maps.event.addDomListener(featuresArray[index],'click', function(event){
-                reqres.trigger("map:featureSelected", index);
+                //reqres.trigger("map:featureSelected", index);
                 handleFeatureSelect(index);                    
             });
             
             google.maps.event.addDomListener(featuresArray[index],'rightclick', function(event){
                 console.log("right clicked map feature");
-                reqres.trigger("map:featureSelected", index);
+                //reqres.trigger("map:featureSelected", index);
                 handleFeatureEdit(index);
             });
             
@@ -431,7 +440,7 @@ define(["apps/gMap/map_defaults", "backbone","reqres","apps/gMap/map_data", "jqu
         console.log("mapModel@save:",mapModel);
         //save will fire the "change" event, of course
         mapModel.save({pk: "mapJson", id: mapModel.get("id"), user: user, value: mapModel.get("mapJson")},{
-            patch: true,
+            
             success: function(model,response,options){
                 console.log("model:", model);
                 console.log("response: ", response);
@@ -450,7 +459,7 @@ define(["apps/gMap/map_defaults", "backbone","reqres","apps/gMap/map_data", "jqu
         // an actual map with id, overlays, etc
         initialize: function(){
             // current user
-            user = reqres.request("user:get");
+            //user = reqres.request("user:get");
             
             //burn the base map
             var mapOptions = {
@@ -522,10 +531,8 @@ define(["apps/gMap/map_defaults", "backbone","reqres","apps/gMap/map_data", "jqu
             });
         },
         
-        loadMap: function(id){
-            //fetch the data, returned as a Backbone Model
-            var mapRequest = reqres.request("map:getMapJson", id);
-            $.when(mapRequest).done(function(data){
+        loadMap: function(data){
+            
                 //set the property
                 mapModel = data;
                                 
@@ -540,7 +547,7 @@ define(["apps/gMap/map_defaults", "backbone","reqres","apps/gMap/map_data", "jqu
                 
                 //paint overlays
                 paintOverlays();
-            });
+            
         }
     };
     
@@ -553,6 +560,13 @@ define(["apps/gMap/map_defaults", "backbone","reqres","apps/gMap/map_data", "jqu
         API.loadMap(id);
     };
     
+    
+    dispatcher.on("mapData:loaded", function(data){
+        console.log("paing map",data);
+        API.loadMap(data);
+    });
+    
+/*    
     reqres.setHandler("g_map:getModel", function(){
         return mapModel;
     });
@@ -583,7 +597,7 @@ define(["apps/gMap/map_defaults", "backbone","reqres","apps/gMap/map_data", "jqu
         selectedFeatureIndex = -1;
         
     });
-
+*/
 
 
     return GMapApp;

@@ -5,7 +5,7 @@ define([], function(){
     
         coordHoverIcon: "./assets/img/alert.png",
 
-        markerIcon: "./assets/img/mm_20_white.png",
+        markerIcon: mtoBaseUrl + "assets/img/mm_20_white.png",
         markerSelectedIcon: "./assets/img/mm_20_red.png",
         markerEditIcon: "./assets/img/mm_20_green.png",
         markerHoverIcon: "./assets/img/mm_20_yellow.png",
