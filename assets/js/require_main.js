@@ -15,6 +15,7 @@ requirejs.config({
     text: "vendor/text",
     tpl: "vendor/underscore-tpl",
     underscore: "vendor/underscore",
+    q: "vendor/q",
     "dhtmlxcommon": "vendor/dhtmlxcommon",
     "dhtmlxmenu": "vendor/dhtmlxmenu",
     "jquery.cookie": "vendor/jquery.cookie",

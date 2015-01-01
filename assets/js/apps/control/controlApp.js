@@ -2,13 +2,13 @@
 define([
     'backbone',
     'apps/control/menu',
-    'common/dispatcher',
+    'common/dispatch',
     'jquery-ui'
 
 ], function(
     Backbone,    
     Menu,
-    dispatcher
+    dispatch
 
 ){
 

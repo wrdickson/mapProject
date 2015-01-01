@@ -138,7 +138,14 @@ function login(){
 	$app = \Slim\Slim::getInstance();
     $username = $app->request->params('username');
     $pwd = $app->request->params('password');
-    $result = Logger::check_login($username,$pwd);	
+    $result = Logger::check_login($username,$pwd);
+    if($result['pass'] == 1){
+        //this will persist user data if they refresh
+        $_SESSION['mtoUserId'] = $result['id'];
+        $_SESSION['mtoUserKey'] = $result['key'];
+        $_SESSION['mtoUsername'] = $result['username'];
+        $_SESSION['mtoUserPerm'] = $result['permission'];    
+    }
 	print json_encode($result);
 }
 
@@ -147,6 +154,21 @@ function logoff(){
     $id = $app->request->params('id');
     $key = $app->request->params('key');
     $result = Logger::logoff($id, $key);
+    //only reset if user logged off successfully with id and key,
+    //otherwise, anyone could log anyone off through the api
+    if($result['success'] == true){
+        $_SESSION['mtoUserId'] = 0;
+        $_SESSION['mtoUserKey'] = 0;
+        $_SESSION['mtoUsername'] = "Guest";
+        $_SESSION['mtoUserPerm'] = 0;     
+    };
+    
+    //debug . ..  
+        $_SESSION['mtoUserId'] = 0;
+        $_SESSION['mtoUserKey'] = 0;
+        $_SESSION['mtoUsername'] = "Guest";
+        $_SESSION['mtoUserPerm'] = 0;
+        
     print json_encode($result);
 }
 

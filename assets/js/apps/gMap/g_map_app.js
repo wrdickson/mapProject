@@ -2,12 +2,12 @@
 
 define([
     "apps/gMap/map_defaults",
-    'common/dispatcher',   
+    'common/dispatch',   
     "backbone", 
     "jquery"
 ], function(
     mapDefaults,
-    dispatcher,
+    dispatch,
     Backbone
 ){
 
@@ -16,7 +16,7 @@ define([
     /*
     Private properties:
     */
-    //user is a Backbone model, loaded via reqres at initialize
+    //user is a Backbone model
     var user;
     //gMap is the actual google.maps object
     var gMap;
@@ -531,7 +531,11 @@ define([
             });
         },
         
-        loadMap: function(data){
+        loadMap: function(data, iUser){
+                
+                //set user
+                user = iUser;
+                console.log('user@mapload:',user);
             
                 //set the property
                 mapModel = data;
@@ -551,19 +555,14 @@ define([
         }
     };
     
-    
+    //initialize merely loads a generic map
     GMapApp.initialize = function(){
         API.initialize();
     };
     
-    GMapApp.loadMap = function(id){
-        API.loadMap(id);
-    };
-    
-    
-    dispatcher.on("mapData:loaded", function(data){
-        console.log("paing map",data);
-        API.loadMap(data);
+    //this should be the only fire mechanism for the map load
+    dispatch.on("mapData:loaded", function(data, iUser){
+        API.loadMap(data, iUser);
     });
     
 /*    

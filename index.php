@@ -18,6 +18,7 @@
     <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL?>assets/css/jqueryui-editable/css/jqueryui-editable.css">
     <?php
         //get session user data if available
+        //this is to handle the situation where a user refreshes or manually enters a url
         if(isset($_SESSION['mtoUserId']) && isset($_SESSION['mtoUserKey']) && isset($_SESSION['mtoUserPerm'])){
         
         }else{
@@ -30,7 +31,7 @@
         $mtoUser = array();
         $mtoUser['mtoUserId'] = $_SESSION['mtoUserId'];
         $mtoUser['mtoUserKey'] = $_SESSION['mtoUserKey'];
-        $mtoUser['mtoUsername'] = $_SESSION['mtoUsername'];
+        $mtoUser['mtoUserName'] = $_SESSION['mtoUsername'];
         $mtoUser['mtoUserPerm'] = $_SESSION['mtoUserPerm'];
         
         $userJson = json_encode($mtoUser);

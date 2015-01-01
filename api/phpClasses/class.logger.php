@@ -103,7 +103,10 @@ class Logger {
         
         $newKey = Logger::generateKey();
         if($keyPassed == true){
-            $response['newKeySuccess'] = Logger::updateUserKey($newKey, $id);
+            $response['success'] = Logger::updateUserKey($newKey, $id);
+        } else {
+            
+            $response['success'] = false;
         }
         return $response;
     }
