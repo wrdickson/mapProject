@@ -1,27 +1,7 @@
 ###Map Project
 
+This my iteration of a map viewer, editor, downloader using the Google Maps API v3.
 
-####Dev Notes:
+A rickety, spaghetti-coded alpha is at http://www.mytrail.org/jMap
 
-* ListItem1
-* ListItem2
-
-Here's an idea: why don't we take `SuperiorProject` and turn it into `**Reasonable**Project`.
-
-This should be a block quote:
->Some text
->goes here
-
-####Code Highlighting?:
-
-    function foo(
-      var bar = "hello"
-    )
-
-
-####Table:
-First Header | Second Header
------------- | -------------
-Content from cell 1 | Content from cell 2
-Content in the first column | Content in the second column
-
+I'm trying to pull out all the guns here: Backbone routers, views, and models; Marionette application and views; RESTful api; an application event channel, require.js modules, r.js optimization.  It's my first attempt at something professional and scalable.
